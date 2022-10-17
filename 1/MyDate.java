@@ -110,7 +110,7 @@ public class MyDate {
     }
 
     private int[] makeDateArray(String peaceOfDate) throws InvalidAttributeValueException{
-        String separatedDateNumbersString[] = peaceOfDate.split("\\.|/|-");//TODO regex can be wrong
+        String separatedDateNumbersString[] = peaceOfDate.split("\\.|/|-");
         if(separatedDateNumbersString.length != 3){
             throw new InvalidAttributeValueException("Invalid date numbers separating format");
         }
@@ -140,7 +140,7 @@ public class MyDate {
         if (o == this) {
             return true;
         }
-        if (!(o instanceof MyDate)) {
+        if ((!(o instanceof MyDate)) || (o == null)) {
             return false;
         }
 
@@ -173,14 +173,3 @@ public class MyDate {
     }
 
 }
-
-/*
-    in main program I should save previos date(+copy constractor) and compare(by overwriten method) if they are the same.
-    If the same, than go forward, don`t save current in input file, but save it in current
-
-    in constractor: evaluating and assigning date fields
-
-    +*create toString() method(overwrite)
-    +*create equel()
-
- */
