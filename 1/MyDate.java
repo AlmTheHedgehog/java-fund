@@ -3,12 +3,9 @@ import javax.management.InvalidAttributeValueException;
 public class MyDate {
     private int day, month, year;
     private String dayOfTheWeek;
+    private short NUMBER_OF_DATE_ELEMENTS = 3;
     MyDate(String inputDate) throws InvalidAttributeValueException{
-        try{
-            convertDate(inputDate);
-        }catch(InvalidAttributeValueException e){
-            throw e;
-        }
+        convertDate(inputDate);
         
     }
     MyDate(MyDate oldDate){
@@ -30,19 +27,11 @@ public class MyDate {
             if(foundWeekDay == null){
                 throw new InvalidAttributeValueException("Impossible to find the day of week");
             }else{
-                try{
-                    decomposeDate(separatedDateAndDay[0]);
-                }catch(InvalidAttributeValueException e){
-                    throw e;
-                }
+                decomposeDate(separatedDateAndDay[0]);
                 dayOfTheWeek = foundWeekDay;
             }
         }else{
-            try{
-                decomposeDate(separatedDateAndDay[1]);
-            }catch(InvalidAttributeValueException e){
-                throw e;
-            }
+            decomposeDate(separatedDateAndDay[1]);
             dayOfTheWeek = foundWeekDay;
         }
     }
@@ -70,11 +59,7 @@ public class MyDate {
 
     private void decomposeDate(String peaceOfDate) throws InvalidAttributeValueException{
         int dateArray[];
-        try{
-            dateArray = makeDateArray(peaceOfDate);
-        }catch(InvalidAttributeValueException e){
-            throw e;
-        }
+        dateArray = makeDateArray(peaceOfDate);
 
 
         if((dateArray[1] > 0) && (dateArray[1] < 13)){
@@ -83,14 +68,10 @@ public class MyDate {
             throw new InvalidAttributeValueException("Invalid month format");
         }
 
-        try{
-            if(dateArray[0] >= dateArray[2]){    
-                validYearAndDaySet(dateArray[0], dateArray[2]);
-            }else{
-                validYearAndDaySet(dateArray[2], dateArray[0]);
-            }
-        }catch(InvalidAttributeValueException e){
-            throw e;
+        if(dateArray[0] >= dateArray[2]){    
+            validYearAndDaySet(dateArray[0], dateArray[2]);
+        }else{
+            validYearAndDaySet(dateArray[2], dateArray[0]);
         }
 
     }
@@ -111,14 +92,14 @@ public class MyDate {
 
     private int[] makeDateArray(String peaceOfDate) throws InvalidAttributeValueException{
         String separatedDateNumbersString[] = peaceOfDate.split("\\.|/|-");
-        if(separatedDateNumbersString.length != 3){
+        if(separatedDateNumbersString.length != NUMBER_OF_DATE_ELEMENTS){
             throw new InvalidAttributeValueException("Invalid date numbers separating format");
         }
 
         int separatedDateNumbers[];
         try{
-            separatedDateNumbers = new int[3];
-            for(int i = 0; i < 3; i++){
+            separatedDateNumbers = new int[NUMBER_OF_DATE_ELEMENTS];
+            for(int i = 0; i < NUMBER_OF_DATE_ELEMENTS; i++){
                 separatedDateNumbers[i] = Integer.valueOf(separatedDateNumbersString[i]);
             }
         }

@@ -12,12 +12,10 @@ public class FileOperator {
     FileOperator(String fileInputPath, String fileOutputPath) throws FileNotFoundException{
         inputFile = new File(fileInputPath);
         outputFile = new File(fileOutputPath);
-        try {
+        try{
             fileScanner = new Scanner(inputFile);
             fileWriter = new FileWriter(outputFile);
-        } catch (FileNotFoundException e){
-            throw e;
-        }catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
         }
     }
