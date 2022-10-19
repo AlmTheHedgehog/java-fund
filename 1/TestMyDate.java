@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 
 import javax.management.InvalidAttributeValueException;
 
-public class Test {
+public class TestMyDate {
     public static void main(String[] args){
 
         FileOperator operator;
