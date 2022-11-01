@@ -2,8 +2,7 @@ public class TelephoneNumber implements Comparable<TelephoneNumber> {
     private String countryCode, localNumber;
 
     public TelephoneNumber() {
-        countryCode = "00";
-        localNumber = "000000000";
+        this("00", "000000000");
     }
 
 
@@ -55,4 +54,5 @@ public class TelephoneNumber implements Comparable<TelephoneNumber> {
     public String toString() {
         return "+" + countryCode + localNumber;
     }
+
 }

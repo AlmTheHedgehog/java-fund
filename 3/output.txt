@@ -1,0 +1,1 @@
+8, 19, 25 the vector length is 3

@@ -3,7 +3,7 @@ import javax.management.InvalidAttributeValueException;
 public class MyDate {
     private int day, month, year;
     private String dayOfTheWeek;
-    private short NUMBER_OF_DATE_ELEMENTS = 3;
+    private final short NUMBER_OF_DATE_ELEMENTS = 3;
     MyDate(String inputDate) throws InvalidAttributeValueException{
         convertDate(inputDate);
         

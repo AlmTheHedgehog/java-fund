@@ -19,7 +19,6 @@ public class Person extends TelephoneEntry{
     public String description() {
         return "Personal record of " + name + " " + lastName + ".\n"
                 + phoneNumber.toString() + ", " + address;
-        
     }
     
     
