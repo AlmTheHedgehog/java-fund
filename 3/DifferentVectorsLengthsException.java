@@ -1,33 +1,38 @@
-public class DifferentVectorsLengthsException extends Throwable {
-	private MathVector firstVector, secondVector;
+import java.util.ArrayList;
 
-    public DifferentVectorsLengthsException() {
-		super();
-	}
+public class DifferentVectorsLengthsException extends Exception {
+	private int firstVectorLength, secondVectorLength;
+	private ArrayList<Integer> firstVectorIndex, secondVectorIndex;
 
-	public DifferentVectorsLengthsException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public DifferentVectorsLengthsException(String message) {
+	public DifferentVectorsLengthsException(String message, int firstVectorLength, int secondVectorLength) {
 		super(message);
+		this.firstVectorLength = firstVectorLength;
+		this.secondVectorLength = secondVectorLength;
 	}
 
-	public DifferentVectorsLengthsException(String message, MathVector firstVector, MathVector secondVector) {
-		super(message);
-		this.firstVector = firstVector;
-		this.secondVector = secondVector;
+	public DifferentVectorsLengthsException(String message, int firstVectorLength, int secondVectorLength,
+											ArrayList<Integer> firstVectorIndex, ArrayList<Integer> secondVectorIndex) {
+		this(message, firstVectorLength, secondVectorLength);
+		this.firstVectorIndex = new ArrayList<Integer>();
+		this.secondVectorIndex = new ArrayList<Integer>();
+		this.firstVectorIndex = firstVectorIndex;
+		this.secondVectorIndex = secondVectorIndex;
 	}
 
-	public DifferentVectorsLengthsException(Throwable cause) {
-		super(cause);
+	public int getFirstVectorLength() {
+		return firstVectorLength;
 	}
 
-	public MathVector getFirstVector() {
-		return firstVector;
+	public int getSecondVectorLength() {
+		return secondVectorLength;
 	}
 
-	public MathVector getSecondVector() {
-		return secondVector;
+	public ArrayList<Integer> getFirstVectorIndex() {
+		return firstVectorIndex;
 	}
+
+	public ArrayList<Integer> getSecondVectorIndex() {
+		return secondVectorIndex;
+	}
+
 }

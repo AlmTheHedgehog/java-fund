@@ -5,13 +5,16 @@ import javax.management.InvalidAttributeValueException;
 
 public class MathVector implements Cloneable{
 
-    private ArrayList<Integer> vector; 
+    private ArrayList<Integer> vector;
+    private ArrayList<Integer> vectorIndexs;
     private final int SEPARATED_INPUT_ARR_SIZE = 2;
 
     MathVector(){
         vector = new ArrayList<Integer>();
     }
-    MathVector(String inputString) throws InvalidAttributeValueException{
+    MathVector(String inputString, int vectorIndex) throws InvalidAttributeValueException{
+        vectorIndexs = new ArrayList<Integer>();
+        vectorIndexs.add(vectorIndex);
         String[] separatedInput = inputString.split(" - length is ");
         if(separatedInput.length != SEPARATED_INPUT_ARR_SIZE){
             throw new InvalidAttributeValueException("Invalid vector structure format");
@@ -32,7 +35,9 @@ public class MathVector implements Cloneable{
 
     MathVector addVector(MathVector anotherVector) throws DifferentVectorsLengthsException{
         if(compareLengthTo(anotherVector) != 0){
-            throw new DifferentVectorsLengthsException("Impossible to add vectors with different length", this, anotherVector);
+            throw new DifferentVectorsLengthsException("Impossible to add vectors with different length", 
+                                                        this.length(), anotherVector.length(), 
+                                                        this.vectorIndexs, anotherVector.vectorIndexs);
         }
 
         MathVector sumVector = null;
@@ -44,6 +49,7 @@ public class MathVector implements Cloneable{
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+        sumVector.vectorIndexs.add(anotherVector.vectorIndexs.get(0));
         return sumVector;
     }
 
@@ -59,21 +65,6 @@ public class MathVector implements Cloneable{
         }
 
         return vectorBuilder;
-    }
-
-    public String stringCompareToLength(MathVector anotherVector){
-        int cmp = compareLengthTo(anotherVector);
-        String result;
-        if(cmp > 0){
-            result = toStringValues() + " the vector length is bigger than " + 
-                    anotherVector.toStringValues() + " vector length";
-        }else if(cmp == 0){
-            result = "Vectors are equal";
-        }else{
-            result = toStringValues() + " the vector length is lower than " + 
-                    anotherVector.toStringValues() + " vector length";
-        }
-        return result;
     }
 
     public int compareLengthTo(MathVector anotherVector){
@@ -114,6 +105,12 @@ public class MathVector implements Cloneable{
     @Override
     protected Object clone() throws CloneNotSupportedException {
 	    MathVector newVector = new MathVector();
+
+        newVector.vectorIndexs = new ArrayList<Integer>();
+        Iterator<Integer> indexesIterator = vectorIndexs.iterator();
+        while(indexesIterator.hasNext()){
+            newVector.vectorIndexs.add(indexesIterator.next());
+        }
 
         Iterator<Integer> valuesIterator = vector.iterator();
         while(valuesIterator.hasNext()){
