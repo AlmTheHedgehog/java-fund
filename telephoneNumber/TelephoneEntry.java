@@ -1,3 +1,5 @@
+package telephoneNumber;
+
 public abstract class TelephoneEntry{
     protected TelephoneNumber phoneNumber;
     protected String name, address;

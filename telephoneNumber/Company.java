@@ -1,3 +1,5 @@
+package telephoneNumber;
+
 public class Company extends TelephoneEntry {
 
     public Company(String name, String address) {

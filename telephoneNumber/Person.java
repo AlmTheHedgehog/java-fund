@@ -1,3 +1,5 @@
+package telephoneNumber;
+
 public class Person extends TelephoneEntry{
     private String lastName;
 

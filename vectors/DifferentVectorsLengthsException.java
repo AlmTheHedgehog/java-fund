@@ -1,3 +1,5 @@
+package vectors;
+
 import java.util.ArrayList;
 
 public class DifferentVectorsLengthsException extends Exception {

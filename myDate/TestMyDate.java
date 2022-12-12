@@ -1,4 +1,4 @@
-import java.io.FileNotFoundException;
+package myDate;
 
 import javax.management.InvalidAttributeValueException;
 
@@ -8,7 +8,7 @@ public class TestMyDate {
         FileOperator operator;
         try{
             operator = new FileOperator("1/input.txt", "1/output.txt");
-        }catch(FileNotFoundException e){
+        }catch(Exception e){
             return;
         }
 
