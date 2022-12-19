@@ -1,19 +1,20 @@
-package communicationProject.Server;
-
-import communicationProject.Server.middleware.*;
+package communicationProject.client;
 
 import javax.swing.*;
+
+import communicationProject.client.commands.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.awt.Dimension;
 
-public class ServerApplication extends JPanel implements ActionListener, Communicator{
-    private JTextField textField;
+public class ClientApplication extends JPanel implements ActionListener{
+    public JTextField textField;
     private JTextArea textArea;
-    private static TcpServer server;
+    private static TcpClient client;
 
-    ServerApplication(){
+    ClientApplication(){
         super(new GridBagLayout());
         textField = new JTextField(20);
         textField.addActionListener(this);
@@ -40,31 +41,41 @@ public class ServerApplication extends JPanel implements ActionListener, Communi
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        String text = textField.getText();
-        textArea.append(text + "\n");
+        showText(textField.getText());
         textField.selectAll();
-        
+
+        new PostCommand(client).execute();
+    }
+
+    public void showText(String text){
+        textArea.append(text + "\n");
         textArea.setCaretPosition(textArea.getDocument().getLength());
     }
 
-    @Override
-    public void showData(String data) {
-        textArea.append(data + "\n");
-    }    
-
     private static void startGUI() {
-        JFrame frame = new JFrame("TcpServer");
+        JFrame frame = new JFrame("TcpClient");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ServerApplication gui = new ServerApplication();
+        ClientApplication gui = new ClientApplication();
  
         frame.add(gui);
 
         try {
-            server = new TcpServer(8080, gui);
+            client = new TcpClient(gui);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             frame.dispose();
+            return;
         }
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent event) {
+                try {
+                    client.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         frame.setMinimumSize(new Dimension(500, 500));
         frame.setSize(500,500);
