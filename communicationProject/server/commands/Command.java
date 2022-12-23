@@ -17,6 +17,10 @@ abstract class Command {
         }
     }
 
-    protected abstract void checkClientIdExicting() throws IllegalArgumentException;
+    protected void checkClientIdExicting() throws IllegalArgumentException{
+        if(!sender.connections.containsKey(clientId)){
+            throw new IllegalArgumentException("Now client with such clientId to execute PostCommand!");
+        }
+    }
     public abstract void execute() throws IllegalArgumentException;
 }

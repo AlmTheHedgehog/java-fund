@@ -2,6 +2,7 @@ package communicationProject.server;
 
 import javax.swing.*;
 
+import communicationProject.server.commands.GetCommand;
 import communicationProject.server.commands.PostCommand;
 
 import java.awt.*;
@@ -71,7 +72,10 @@ public class ServerApplication extends JPanel implements ActionListener{
         }
         switch(commandArray[1]){
             case "POST":
-                new PostCommand(server, clientId, commandArray[2]).execute();;
+                new PostCommand(server, clientId, commandArray[2]).execute();
+                break;
+            case "GET":
+                new GetCommand(server, clientId, commandArray[2]).execute();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid command(unknown commandType)");

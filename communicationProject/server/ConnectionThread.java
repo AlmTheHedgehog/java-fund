@@ -30,7 +30,7 @@ public class ConnectionThread extends Thread{
             try {
                 inData = in.readUTF();
                 server.gui.showText("Recieved from client id=" + id + ": " + inData);
-                post(inData);                
+                //post(inData);                
             } catch (IOException e) {
                 close();
                 return;
@@ -42,7 +42,16 @@ public class ConnectionThread extends Thread{
         try {
             out.writeUTF("POST␝" + data);
         } catch (IOException e) {
-            this.server.gui.showText("Impossible to connect to client! ");
+            this.server.gui.showText("Impossible to connect to client!");
+            e.printStackTrace();
+        }
+    }
+
+    public void get(String parameterName){
+        try {
+            out.writeUTF("GET␝" + parameterName);
+        } catch (IOException e) {
+            this.server.gui.showText("Impossible to connect to client!");
             e.printStackTrace();
         }
     }

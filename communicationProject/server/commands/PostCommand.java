@@ -14,13 +14,5 @@ public class PostCommand extends Command{
     public void execute() throws IllegalArgumentException{
         checkClientIdExicting();
         clientConnection.post(data);
-    }
-
-    @Override
-    protected void checkClientIdExicting() throws IllegalArgumentException {
-        if(!sender.connections.containsKey(clientId)){
-            throw new IllegalArgumentException("Now client with such clientId to execute PostCommand!");
-        }
-    }
-    
+    }    
 }

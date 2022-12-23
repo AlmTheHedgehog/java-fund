@@ -3,6 +3,8 @@ package communicationProject.client;
 import java.io.*;
 import java.net.*;
 
+import communicationProject.client.commands.PostCommand;
+
 public class TcpClient implements AutoCloseable{
     final String HOSTNAME = "localhost";
     final int PORT = 8080;
@@ -25,7 +27,12 @@ public class TcpClient implements AutoCloseable{
                 while(!interrupted()){
                     try {
                         inData = in.readUTF();
-                        gui.showText("Recieved from server:" + inData);             
+                        gui.showText("Recieved from server:" + inData);
+                        try{
+                            processRequest(inData);
+                        }catch(IllegalArgumentException e){
+                            post(e.getMessage());
+                        }
                     } catch (IOException e) {
                         gui.showText("No connection to server!");
                         return;
@@ -42,6 +49,29 @@ public class TcpClient implements AutoCloseable{
         } catch (IOException e) {
             this.gui.showText("Impossible to connect to server!");
             e.printStackTrace();
+        }
+    }
+
+    public String getDataFromSensor(String sensorName) throws IllegalArgumentException{
+        switch(sensorName.toLowerCase()){
+            case "temp":
+                return "Current temperature:" + gui.tempSlider.getValue();
+            default:
+                throw new IllegalArgumentException("Invalid sensor name");
+        }
+    }
+
+    public void processRequest(String inData) throws IllegalArgumentException{
+        String[] separatedRequest = inData.split("␝");
+        if(separatedRequest.length != 2){
+            throw new IllegalArgumentException("Invalid command format");
+        }
+        switch(separatedRequest[0]){
+            case "GET":
+                new PostCommand(this,getDataFromSensor(separatedRequest[1])).execute();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid command type");
         }
     }
 
