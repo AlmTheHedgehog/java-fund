@@ -3,14 +3,15 @@ package communicationProject.client.commands;
 import communicationProject.client.TcpClient;
 
 public class PostCommand extends Command{
-
-    public PostCommand(TcpClient sender) {
+    private String message;
+    public PostCommand(TcpClient sender, String message) {
         super(sender);
+        this.message = message;
     }
 
     @Override
     public void execute() {
-        sender.post(sender.gui.textField.getText());
+        sender.post(message);
     }
     
 }
