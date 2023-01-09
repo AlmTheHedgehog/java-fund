@@ -28,7 +28,6 @@ public class TcpServer {
                 start();
             }
             public void run(){
-                System.out.println("getName()");
                 while (true) {
                     newConnection = new ConnectionThread(serverSocket, id, server);
                     newConnection.start();

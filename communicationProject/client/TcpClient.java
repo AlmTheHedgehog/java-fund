@@ -27,9 +27,8 @@ public class TcpClient implements AutoCloseable{
                 while(!interrupted()){
                     try {
                         inData = in.readUTF();
-                        gui.showText("Recieved from server:" + inData);
                         try{
-                            processRequest(inData);
+                            processRequests(inData);
                         }catch(IllegalArgumentException e){
                             post(e.getMessage());
                         }
@@ -61,7 +60,30 @@ public class TcpClient implements AutoCloseable{
         }
     }
 
-    public void processRequest(String inData) throws IllegalArgumentException{
+    public void SetDataToEquipment(String equipmentData) throws IllegalArgumentException{
+        String[] separatedEquipmentData = equipmentData.split(":");
+        if(separatedEquipmentData.length != 2){
+            throw new IllegalArgumentException("Invalid equipment data");
+        }
+        String equipmentName = separatedEquipmentData[0];
+        String value = separatedEquipmentData[1];
+        
+        switch(equipmentName.toLowerCase()){
+            case "temp":
+                try{
+                    gui.requestedTemp = Integer.parseInt(value);
+                }catch(NumberFormatException e){
+                    throw new IllegalArgumentException("Invalid value arg for equipment", e);
+                }
+                gui.tempLabel.setText("Requested temperature:" + value);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid equipment name");
+        }
+    }
+
+    public void processRequests(String inData) throws IllegalArgumentException{
+        //Each command part separated by "␝" and SET argument is a string with equipment name and value separated by ":"
         String[] separatedRequest = inData.split("␝");
         if(separatedRequest.length != 2){
             throw new IllegalArgumentException("Invalid command format");
@@ -69,6 +91,12 @@ public class TcpClient implements AutoCloseable{
         switch(separatedRequest[0]){
             case "GET":
                 new PostCommand(this,getDataFromSensor(separatedRequest[1])).execute();
+                break;
+            case "POST":
+                gui.showText("Recieved from server:" + separatedRequest[1]);
+                break;
+            case "SET":
+                SetDataToEquipment(separatedRequest[1]);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid command type");

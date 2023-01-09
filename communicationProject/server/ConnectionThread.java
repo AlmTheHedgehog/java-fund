@@ -38,22 +38,25 @@ public class ConnectionThread extends Thread{
         }       
     }
 
-    public void post(String data){
+    private void sendData(String data){
         try {
-            out.writeUTF("POST␝" + data);
+            out.writeUTF(data);
         } catch (IOException e) {
             this.server.gui.showText("Impossible to connect to client!");
             e.printStackTrace();
         }
     }
 
+    public void post(String data){
+        sendData("POST␝" + data);
+    }
+
     public void get(String parameterName){
-        try {
-            out.writeUTF("GET␝" + parameterName);
-        } catch (IOException e) {
-            this.server.gui.showText("Impossible to connect to client!");
-            e.printStackTrace();
-        }
+        sendData("GET␝" + parameterName);
+    }
+
+    public void set(String argString){
+        sendData("SET␝" + argString);
     }
 
     private void close(){

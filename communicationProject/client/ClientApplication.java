@@ -14,27 +14,36 @@ import java.awt.Dimension;
 public class ClientApplication extends JPanel implements ActionListener, ChangeListener{
     public JTextField textField;
     public JSlider tempSlider;
+    public JLabel tempLabel;
+    public int requestedTemp;
+    private Font standartFont;
     private JTextArea textArea;
     private static TcpClient client;
 
     ClientApplication(){
         super(new GridBagLayout());
+        standartFont = new Font("Arial", Font.BOLD, 20);
+        requestedTemp = 0;
+
         textField = new JTextField(20);
         textField.addActionListener(this);
-        textField.setFont(new Font("Arial", Font.BOLD, 20));
+        textField.setFont(standartFont);
  
         textArea = new JTextArea(15, 20);
         textArea.setEditable(false);
-        textArea.setFont(new Font("Arial", Font.BOLD, 20));
+        textArea.setFont(standartFont);
         JScrollPane scrollPane = new JScrollPane(textArea);
 
         tempSlider = new JSlider(JSlider.HORIZONTAL, -20, 40, 0);
         tempSlider.addChangeListener(this);
-        tempSlider.setFont(new Font("Arial", Font.BOLD, 20));
+        tempSlider.setFont(standartFont);
         tempSlider.setMajorTickSpacing(10);
         tempSlider.setMinorTickSpacing(1);
         tempSlider.setPaintLabels(true);
         tempSlider.setPaintTicks(true);
+
+        tempLabel = new JLabel("Requested temperature:None", JLabel.LEFT);
+        tempLabel.setFont(standartFont);
  
         //Add Components to this panel.
         GridBagConstraints c = new GridBagConstraints();
@@ -42,13 +51,15 @@ public class ClientApplication extends JPanel implements ActionListener, ChangeL
 
         c.fill = GridBagConstraints.HORIZONTAL;
         add(tempSlider, c);
+        
+        add(tempLabel, c);
   
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 2;
         c.weighty = 1.0;
         add(scrollPane, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         c.weighty = 0;
         add(textField, c);
     }
